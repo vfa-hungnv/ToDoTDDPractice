@@ -26,7 +26,8 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO">
@@ -35,6 +36,21 @@
                BlueprintIdentifier = "0C0BB1481D5DB26700CFAB65"
                BuildableName = "ToDoTDDTests.xctest"
                BlueprintName = "ToDoTDDTests"
+               ReferencedContainer = "container:ToDoTDD.xcodeproj">
+            </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "InputViewControllerTests">
+               </Test>
+            </SkippedTests>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0C88CFA01D66B7B500AC4FB7"
+               BuildableName = "ToDoTDDUITests.xctest"
+               BlueprintName = "ToDoTDDUITests"
                ReferencedContainer = "container:ToDoTDD.xcodeproj">
             </BuildableReference>
          </TestableReference>
