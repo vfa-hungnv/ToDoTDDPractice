@@ -30,9 +30,9 @@ func ==(lhs: ToDoItem, rhs: ToDoItem) -> Bool {
         return false
     }
     
-    if lhs.timestamp != rhs.timestamp {
-        return false
-    }
+//    if lhs.timestamp != rhs.timestamp {
+//        return false
+//    }
     
     if lhs.itemDescription != rhs.itemDescription {
         return false

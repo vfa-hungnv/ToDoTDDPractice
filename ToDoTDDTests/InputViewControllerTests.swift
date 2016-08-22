@@ -65,7 +65,9 @@ class InputViewControllerTests: XCTestCase {
                                 timestamp: 1456095600,
                                 location: Location(name: "Office", coordinate: coordinate))
         
+
         XCTAssertEqual(item, testItem)
+
     }
     
     func testSave_CreatesToDoItemWithTitleDateAndDescription() {
@@ -95,6 +97,33 @@ class InputViewControllerTests: XCTestCase {
         }
         XCTAssertTrue(actions.contains("save"))
     }
+    
+    func test_GeocoderWorkAsExpected() {
+        
+        let expectation = expectationWithDescription("Wait for geocode")
+        
+        //This method call is asynchronous, the closure is called sometime in the future on a different thread
+        CLGeocoder().geocodeAddressString("Infinite Loop 1, Cupertine") {
+            (placemarks, error) -> Void in
+            let placemark = placemarks?.first
+            let coordinate = placemark?.location?.coordinate
+            
+            guard let latitude = coordinate?.latitude else {
+                XCTFail(); return
+            }
+            
+            guard let longitude = coordinate?.longitude else {
+                XCTFail(); return
+            }
+            
+            XCTAssertEqualWithAccuracy(latitude, 37.3316851, accuracy: 0.00001)
+            XCTAssertEqualWithAccuracy(longitude, -122.030127, accuracy: 0.00001)
+            
+            expectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(5, handler: nil)
+    }
+    
 }
 
 extension InputViewControllerTests {
