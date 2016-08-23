@@ -29,11 +29,25 @@ class APIClient {
         let task = session.dataTaskWithURL(url) {
             (data, response, error) -> Void in
             
-                let responseDict = try!
-                NSJSONSerialization.JSONObjectWithData(data!, options: [])
-                let token = responseDict["token"] as! String
-                self.keychainManager?.setPassword(token, account: "token")
+                if error != nil {
+                    completion(WebserviceError.DataEmtyError)
+                    return
+                }
+            
+                if let theData = data {
+                    do {
+                        let responseDict = try
+                            NSJSONSerialization.JSONObjectWithData(theData, options: [])
+                        let token = responseDict["token"] as! String
+                        self.keychainManager?.setPassword(token, account: "token")
+                    } catch {
+                        completion(error)
+                    }
+                } else {
+                    completion(WebserviceError.DataEmtyError)
+                }
             }
+        
         task.resume()
     }
 }
@@ -44,3 +58,7 @@ protocol ToDoURLSession {
 }
 
 extension NSURLSession : ToDoURLSession { }
+
+enum WebserviceError: ErrorType {
+    case DataEmtyError
+}

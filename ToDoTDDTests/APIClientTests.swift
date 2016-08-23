@@ -84,6 +84,52 @@ class APIClientTests: XCTestCase {
         XCTAssertEqual(token, responseDict["token"])
     }
     
+    func testLogin_ThrowsErrorWhenJSONIsInvalid() {
+        var theError: ErrorType?
+        let completion = { (error: ErrorType?) in
+            theError = error
+        }
+        sut.loginUserWithName("dasdom", password: "1234", completion: completion)
+        
+        let responseData = NSData()
+        mockURLSession.completionHander?(responseData, nil, nil)
+        
+        XCTAssertNotNil(theError)
+    }
+    
+    func testLogin_ThrowsErrorWhenDataIsNill() {
+        
+        var theError: ErrorType?
+        let completion = { (error: ErrorType?) in
+            theError = error
+        }
+        
+        sut.loginUserWithName("dasdom", password: "1234", completion: completion)
+        
+        mockURLSession.completionHander?(nil, nil, nil)
+        
+        XCTAssertNotNil(theError)
+    }
+    
+    func testLogin_ThrowsErrorWhenResponseHasError() {
+        
+        var theError: ErrorType?
+        
+        let completion = { (error: ErrorType?) in
+            theError = error
+        }
+        
+        sut.loginUserWithName("dasdom", password: "1234", completion: completion)
+        
+        let responseDict = ["token" : "1234567890"]
+        let responseData = try! NSJSONSerialization.dataWithJSONObject(responseDict,
+                                                                       options: [])
+        let error = NSError(domain: "SomeError", code:
+            1234, userInfo: nil)
+        mockURLSession.completionHander?(responseData, nil, error)
+        
+        XCTAssertNotNil(theError)
+    }
 }
 
 extension APIClientTests {
