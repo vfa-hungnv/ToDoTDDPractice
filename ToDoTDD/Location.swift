@@ -34,3 +34,21 @@ func ==(lhs: Location, rhs: Location) -> Bool {
     
     return true
 }
+
+////HUNGNV2
+//
+//if ([url.scheme isEqualToString:@"ygo"] && [url.host isEqualToString:@"reserve"]) {
+//    
+//    if ( ([self.navigationController topViewController] != nil)  && ([[self.navigationController topViewController] isKindOfClass: [RoundReserveViewController class]] )) {
+//        return YES;
+//    }
+//    
+//    RoundReserveViewController *vc = [[RoundReserveViewController alloc] init];
+//    [self.navigationController pushViewController:vc animated:YES];
+//    
+//    UIImage *backgroundImage = [UIImage imageNamed:@"navigationbar_bg.png"];
+//    [self.navigationController.navigationBar setBackgroundImage:backgroundImage forBarMetrics:UIBarMetricsDefault];
+//    
+//    return YES;
+//}
+////End

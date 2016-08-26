@@ -18,7 +18,7 @@ class ItemListDataProviderTests: XCTestCase {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
         sut = ItemListDataProvider()
-        sut.itemManage = ItemManager()
+        sut.itemManager = ItemManager()
         
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         controller = storyboard.instantiateViewControllerWithIdentifier("ItemListViewController") as! ItemListViewController
@@ -44,11 +44,11 @@ class ItemListDataProviderTests: XCTestCase {
     
     func testNumberRowsInFirstSection_IsToDoCount() {
 
-        sut.itemManage?.addItem(ToDoItem(title: "First"))
+        sut.itemManager?.addItem(ToDoItem(title: "First"))
         
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
 
-        sut.itemManage?.addItem(ToDoItem(title: "second"))
+        sut.itemManager?.addItem(ToDoItem(title: "second"))
         tableView.reloadData()
     
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 2)
@@ -56,20 +56,20 @@ class ItemListDataProviderTests: XCTestCase {
     
     func testNumberRowsInSecondSection_IsDoneCount() {
         
-        sut.itemManage?.addItem(ToDoItem(title: "First"))
-        sut.itemManage?.addItem(ToDoItem(title: "Second"))
-        sut.itemManage?.checkItemAtIndex(0)
+        sut.itemManager?.addItem(ToDoItem(title: "First"))
+        sut.itemManager?.addItem(ToDoItem(title: "Second"))
+        sut.itemManager?.checkItemAtIndex(0)
         
         XCTAssertEqual(tableView.numberOfRowsInSection(1), 1)
         
-        sut.itemManage?.checkItemAtIndex(0)
+        sut.itemManager?.checkItemAtIndex(0)
         
         tableView.reloadData()
         XCTAssertEqual(tableView.numberOfRowsInSection(1), 2)
     }
     
     func testCellForRow_ReturnItemCell() {
-        sut.itemManage?.addItem(ToDoItem(title: "First"))
+        sut.itemManager?.addItem(ToDoItem(title: "First"))
         tableView.reloadData()
 
         
@@ -81,7 +81,7 @@ class ItemListDataProviderTests: XCTestCase {
     func testCellForRow_DequeuesCell() {
         let mockTableView = MockTableView().mockTableViewWithDataSource(sut)
         
-        sut.itemManage?.addItem(ToDoItem(title: "First"))
+        sut.itemManager?.addItem(ToDoItem(title: "First"))
         mockTableView.reloadData()
         _ = mockTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
         
@@ -92,7 +92,7 @@ class ItemListDataProviderTests: XCTestCase {
         let mockTableView = MockTableView().mockTableViewWithDataSource(sut)
         
         let toDoItem = ToDoItem(title: "First", itemDescription: "First description")
-        sut.itemManage?.addItem(toDoItem)
+        sut.itemManager?.addItem(toDoItem)
         mockTableView.reloadData()
         
         let cell = mockTableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! MockItemCell
@@ -119,22 +119,22 @@ class ItemListDataProviderTests: XCTestCase {
     }
     
     func testCheckingAnItem_ChecksItInTheItemManager() {
-        sut.itemManage?.addItem(ToDoItem(title: "First"))
+        sut.itemManager?.addItem(ToDoItem(title: "First"))
         tableView.dataSource?.tableView?(tableView, commitEditingStyle: .Delete, forRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0))
-        XCTAssertEqual(sut.itemManage?.toDoCount, 0)
-        XCTAssertEqual(sut.itemManage?.doneCount, 1)
+        XCTAssertEqual(sut.itemManager?.toDoCount, 0)
+        XCTAssertEqual(sut.itemManager?.doneCount, 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 0)
         XCTAssertEqual(tableView.numberOfRowsInSection(1), 1)
     }
     
     func testUncheckingAnItem_UncheckItInTheItemsManager() {
-        sut.itemManage?.addItem(ToDoItem(title: "First"))
-        sut.itemManage?.checkItemAtIndex(0)
+        sut.itemManager?.addItem(ToDoItem(title: "First"))
+        sut.itemManager?.checkItemAtIndex(0)
 
         tableView.dataSource?.tableView?(tableView, commitEditingStyle: .Delete, forRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 1))
         
-        XCTAssertEqual(sut.itemManage?.toDoCount, 1)
-        XCTAssertEqual(sut.itemManage?.doneCount, 0)
+        XCTAssertEqual(sut.itemManager?.toDoCount, 1)
+        XCTAssertEqual(sut.itemManager?.doneCount, 0)
         XCTAssertEqual(tableView.numberOfRowsInSection(0), 1)
         XCTAssertEqual(tableView.numberOfRowsInSection(1), 0)
     }

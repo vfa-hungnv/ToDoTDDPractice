@@ -13,15 +13,14 @@ enum Section: Int {
     case Done
 }
 
-class ItemListDataProvider: NSObject {
-    var itemManage: ItemManager?
+class ItemListDataProvider: NSObject{
     
-    
+    var itemManager: ItemManager?
 }
 
 extension ItemListDataProvider: UITableViewDataSource {
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let itemManager = itemManage else {
+        guard let itemManager = itemManager else {
             return 0
         }
         guard let itemSection = Section(rawValue: section) else {
@@ -43,7 +42,7 @@ extension ItemListDataProvider: UITableViewDataSource {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ItemCell", forIndexPath: indexPath) as! ItemCell
         
-        if let toDoItem = itemManage?.itemAtIndex(indexPath.row) {
+        if let toDoItem = itemManager?.itemAtIndex(indexPath.row) {
             cell.configCellWithItem(toDoItem)
         }
         
@@ -77,7 +76,7 @@ extension ItemListDataProvider: UITableViewDelegate {
 
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
-        guard let itemManage = itemManage else {
+        guard let itemManage = itemManager else {
             fatalError()
         }
         guard let section = Section(rawValue: indexPath.section) else {
@@ -96,6 +95,11 @@ extension ItemListDataProvider: UITableViewDelegate {
     
 }
 
+extension ItemListDataProvider: ItemManagerSettable { }
+
+@objc protocol ItemManagerSettable {
+    var itemManager: ItemManager? {get set}
+}
 
 
 

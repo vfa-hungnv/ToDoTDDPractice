@@ -13,10 +13,21 @@ class ItemListViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    @IBOutlet var dataProvider: protocol<UITableViewDataSource, UITableViewDelegate>!
+    @IBOutlet var dataProvider: protocol<UITableViewDataSource, UITableViewDelegate, ItemManagerSettable>!
     
+    let itemManager = ItemManager()
     override func viewDidLoad() {
         self.tableView.dataSource = dataProvider
         self.tableView.delegate = dataProvider
+        dataProvider.itemManager = itemManager
     }
+    @IBAction func addItem(sender: UIBarButtonItem) {
+        
+        if let nextViewController = storyboard?.instantiateViewControllerWithIdentifier("InputViewController")
+            as? InputViewController {
+            presentViewController(nextViewController, animated: true, completion: nil)
+            nextViewController.itemManager = self.itemManager
+        }
+    }
+
 }

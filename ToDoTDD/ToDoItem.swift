@@ -21,6 +21,8 @@ struct ToDoItem {
         self.timestamp = timestamp
         self.location = location
     }
+    
+    
 }
 
 extension ToDoItem: Equatable {}

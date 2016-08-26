@@ -86,6 +86,7 @@ class InputViewController: UIViewController {
             self.itemManager?.addItem(item)
             
         }
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }
 
