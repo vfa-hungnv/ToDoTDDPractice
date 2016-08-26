@@ -31,7 +31,7 @@ class LocationTest: XCTestCase {
     
     func testInit_ShouldSerName() {
         let location = Location(name: "Test name")
-        XCTAssertEqual(location.name, "Test name", "Initializer should set the name")
+        XCTAssertEqual(location.name, "Test name 2222", "Initializer should set the name")
     }
     
     func testWhenlatitudeDifferes_ShouldBeNotEqual() {
